@@ -1,7 +1,10 @@
 import React from "react";
 import MakeTable from "components/specific/MakeTable";
 import Bodybox from "components/common/Bodybox";
-import GetProblems from "services/GetProblems";
+import Roundbox from "components/common/Roundbox"
+import GetProblem from "services/GetProblem";
+import Link from "components/common/Link";
+import { Button, Center } from "@chakra-ui/react";
 
 const dummyData = {
   code: "200",
@@ -31,9 +34,12 @@ const dummyData = {
 };
 
 const Problem = () => {
-  const PROBLEM_TABLE_TITLE = ['문제 번호', '제목', '해결', '복습', '출처', '난이도', '날짜'];
+  const PROBLEM_TABLE_TITLE = ['문제 번호', '제목', '해결', '복습', '출처', '난이도', '날짜', '삭제'];
   const SELECT_KEYS = ['id', 'title', 'is_success',  'is_review', 'source', 'level', 'updated_at']; // first key should be id 
-  const data = GetProblems("");
+  const data = GetProblem("");
+  if (data){
+    console.log(data);
+  }
   // get tableData selected by keys
   const selectedData = dummyData.data.posts.map(post => (
     SELECT_KEYS.map((key) => {
@@ -51,7 +57,12 @@ const Problem = () => {
 
   return (
     <Bodybox>
-      <MakeTable data={selectedData} titles={PROBLEM_TABLE_TITLE} />
+      <Roundbox>
+        <MakeTable data={selectedData} titles={PROBLEM_TABLE_TITLE} />
+        <Center>
+          <Button>+</Button>
+        </Center>
+      </Roundbox>
     </Bodybox>
   )
 }

@@ -6,14 +6,17 @@ import { useRecoilState } from 'recoil';
 import LoginState from 'atoms/LoginState';
 
 const LoginHeader = () => {
-  const [isLogin, setIsLogin] = useRecoilState(LoginState);
+  const [loginInfo, setLoginInfo] = useRecoilState(LoginState);
 
   return (
     <HStack spacing={5}>
-      {isLogin ? (
+      {loginInfo.isLogin ? (
         <Link to="/" onClick={() => {
           HandleLogout();
-          setIsLogin(false);
+          setLoginInfo({
+            isLogin: false,
+            username: ""
+          });
         }}>로그아웃</Link>
       ) : (
         <>

@@ -18,8 +18,7 @@ const Login = () => {
 	const handleClick = () => setShow(!show)
 	const handleUsernameChange = (event) => setUsername(event.target.value);
 	const handlePasswordChange = (event) => setPassword(event.target.value);
-	const setIsLogin = useSetRecoilState(LoginState);
-
+	const setLoginInfo = useSetRecoilState(LoginState);
 	return (
 		<Center>
 			<Roundbox>
@@ -45,7 +44,10 @@ const Login = () => {
 							onClick={async () =>{
 								const isLoginSuccess = await HandleLogin(username, password);
 								if (isLoginSuccess) {
-									setIsLogin(true);
+										setLoginInfo({
+											isLogin: true,
+											username: username
+									});
 									navigate('/');
 								}}} fontSize='13'>로그인</Button>
 					</Flex>

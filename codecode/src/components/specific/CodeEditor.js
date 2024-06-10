@@ -1,7 +1,5 @@
 import Editor from '@monaco-editor/react';
-import { useState } from 'react';
 import {
-  Box,
   Menu,
   MenuButton,
   MenuList,
@@ -12,16 +10,9 @@ import {
   ChevronDownIcon
 } from '@chakra-ui/icons';
 
-function CodeEditor({defaultCode, h}) {
-  const [code, setCode] = useState('');
-  const [language, setLang] = useState('python');
+const SELECT_LANGS = ["c++", "java", "python", "c", "javascript"];
 
-  const SELECT_LANGS = ["c++", "java", "python", "c", "javascript"];
-
-  function handleEditorChange(value, event) {
-    setCode(value);
-  }
-
+function CodeEditor({code, language, setLang, handleEditorChange, h}) {
   return (
     <>
       <Menu>
@@ -37,8 +28,7 @@ function CodeEditor({defaultCode, h}) {
       </Menu>
       <Editor 
         defaultLanguage={language}
-        defaultValue={defaultCode}
-        value={code}
+        defaultValue={code}
         onChange={handleEditorChange}
         theme="vs"
         height={h}

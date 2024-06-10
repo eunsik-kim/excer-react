@@ -4,7 +4,7 @@ import Problembox from '../components/specific/Problem';
 import InputBox from '../components/specific/InputBox';
 import { HStack, Text,} from '@chakra-ui/react';
 import Bodybox from "components/common/Bodybox";
-import GetProblems from "services/GetProblems";
+import GetProblem from "services/GetProblem";
 
 const dummyData = {
   code: "200",
@@ -45,7 +45,6 @@ const dummyData = {
 
         `,
         link: "https://leetcode.com/problems/two-sum/",
-        category: "Data Structure",
         is_success: true,
         is_review: false,        
         note: 
@@ -59,6 +58,7 @@ const dummyData = {
         1. nums 배열을 순회를 하면서 isin dictionary에 현재 값이 있으면 idx를 반환하고 종료합니다.
         2. target과 차이를 isin dictionary에 추가합니다.
         `,
+        language: 'python',
         code:`
         class Solution(object):
           def twoSum(self, nums, target):
@@ -80,9 +80,11 @@ const dummyData = {
   }
 };
 
-const ProblemSolve = () => {
+const ProblemSolve = ({newData}) => {
   const {id} = useParams();
-  const newData = GetProblems(id);
+  if (!newData)
+    newData = GetProblem(id);
+  console.log(newData);
   const data = dummyData.data.posts.find(post => post.id === parseInt(id, 10));
   if (!data) {
     return <Bodybox><Text fontSize='5xl' as='b'>Problem<Text color='Red'>Not</Text>Found</Text></Bodybox>;

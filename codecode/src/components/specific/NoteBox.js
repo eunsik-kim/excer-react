@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import {
   defaultChecked,
   Editable,
@@ -8,20 +8,24 @@ import {
 } from '@chakra-ui/react'
 import Roundbox from 'components/common/Roundbox';
 
-const NoteBox = ({defaultNote, h, is_review, is_success, ...rest}) => {
-  const [Is_Review, setIs_Review] = useState(is_review);
-  const [Is_Success, setIs_Success] = useState(is_success);
-  const inputRef = useRef(null);
+const dataExample = `A. 아이디어
+...
 
+B. 해결방법
+...`;
+
+const NoteBox = ({noteData, noteHandler, h, ...rest}) => {
   return (
     <>
       <Roundbox mb="3">
-        <Checkbox mr={3} onChange={() => setIs_Success(!Is_Success)} defaultChecked = {Is_Success}>성공</Checkbox>
-        <Checkbox onChange={() => setIs_Review(!Is_Review)} defaultChecked = {Is_Review}>나중에 또 풀기</Checkbox>
+        <Checkbox mr={3} onChange={() => noteHandler.handleissuccess(!noteData.IsSuccess)} 
+          defaultChecked = {noteData.IsSuccess}>성공</Checkbox>
+        <Checkbox onChange={() => noteHandler.handleisreview(!noteData.Is_Review)} 
+          defaultChecked = {noteData.IsReview}>나중에 또 풀기</Checkbox>
       </Roundbox>
-      <Editable defaultValue={defaultNote} ref = {inputRef} {...rest}>
+      <Editable defaultValue={noteData.note} placeholder={dataExample} {...rest}>
         <EditablePreview />
-        <EditableTextarea h={h}/>
+        <EditableTextarea h={h} onChange = {noteHandler.handlenote}/>
       </Editable>
     </>
   );
