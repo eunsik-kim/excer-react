@@ -8,6 +8,7 @@ import Algorithm from "../../pages/Algorithms";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import ProblemSolve from "pages/ProblemSolve";
+import AlgorithmDetail from "pages/AlgorithmDetail";
 
 const Router = () => {
   return (
@@ -18,7 +19,8 @@ const Router = () => {
           <Route path="/problem" element={<Problem />} />
           <Route path="/problem/:id" element={<ProblemSolve />} />
           <Route path="/solve" element={<Solve />} />
-          <Route path="/algorithm" element={<Algorithm />} />        
+          <Route path="/algorithm" element={<Algorithm />} />
+          <Route path="/algorithm/:id" element={<AlgorithmDetail />} />        
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>

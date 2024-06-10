@@ -7,7 +7,6 @@ import TableRow from './TableRow';
 import TableSkeleton from './TableSkeleton';
 
 const MakeTable = ({data, titles, isLoading}) => {
-
   return (
     <TableContainer>
       {isLoading ? ( 
@@ -29,7 +28,7 @@ const MakeTable = ({data, titles, isLoading}) => {
         <Alert status="info">
           <AlertIcon />
           <AlertDescription>
-            알고리즘 문제를 추가해 주세요!
+            내용을 추가해 주세요!
           </AlertDescription>
         </Alert>
       )

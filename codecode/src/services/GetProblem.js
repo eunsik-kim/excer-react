@@ -9,7 +9,7 @@ const GetProblem = async (problem_no) => {
     const response = await axios.get(newPostUrl);
     return response.data
   } catch (e) {
-    const emsg = (e.response?.data?.message || 'Get 요청 실패!'); // 에러 메시지 설정
+    const emsg = (e.response?.data?.message || '잘못된 접근!'); // 에러 메시지 설정
     console.log(e);
     alert(emsg);
     return false;

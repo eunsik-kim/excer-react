@@ -5,7 +5,8 @@ const config = {
   loginUrl: baseUrl + '/api/auth/login',
   signupUrl: baseUrl + '/api/auth/signup',
   postUrl: baseUrl + '/api/post', 
-  refreshTokenUrl: baseUrl + 'api/refresh'
+  refreshTokenUrl: baseUrl + 'api/refresh',
+  AlgoUrl: baseUrl + 'api/algo'
 }
 
-export const {apiUrl, loginUrl, signupUrl, postUrl, refreshTokenUrl} = config;
+export const {apiUrl, loginUrl, signupUrl, postUrl, refreshTokenUrl, AlgoUrl} = config;

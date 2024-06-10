@@ -8,9 +8,9 @@ import { useNavigate } from "react-router-dom"
 import { useRecoilState, useRecoilValue } from "recoil";
 import RefreshState from "atoms/RefreshState";
 
-const PROBLEM_TABLE_TITLE = ['문제 번호', '제목', '해결', '복습', '출처', '날짜', '삭제'];
 // first key should be id 
 const SELECT_KEYS = ['id', 'title', 'is_success',  'is_review', 'source', 'updatedAt']; 
+const PROBLEM_TABLE_TITLE = ['문제 번호', '제목', '해결', '복습', '출처', '날짜', '삭제'];
 
 const Problem = () => {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const Problem = () => {
     fetchData();
   }, [refresh]); 
 
-  const selectedData = !data ? null : data.data ? data.data.map(post => (
+  const selectedData = data && data.data ? data.data.map(post => (
     SELECT_KEYS.map((key) => {
         if (key === 'updatedAt')
           return post[key] ? post[key].split('T')[0] : "없음"
