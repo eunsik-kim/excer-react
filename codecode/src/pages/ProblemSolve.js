@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import Problembox from '../components/specific/Problem';
 import InputBox from '../components/specific/InputBox';
-import { HStack, Text, Box, Skeleton } from '@chakra-ui/react';
+import { HStack, Box, Skeleton } from '@chakra-ui/react';
 import GetProblem from "services/GetProblem";
 
 const ProblemSolve = () => {

@@ -36,7 +36,7 @@ const Button = ({children, onClick, isDisabled = false, color = 'gray', ...rest}
     onClick = ()=>{};
 
   return (
-    <button onClick={onClick}>
+    <button onClick={onClick} >
       <Box {...buttonStyle} {...rest}>
         {children}
       </Box>

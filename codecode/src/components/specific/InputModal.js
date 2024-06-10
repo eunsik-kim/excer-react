@@ -50,7 +50,7 @@ function InputModal() {
             <FormLabel>문제 내용</FormLabel>
             <Textarea mb={1} h={40} overflowY='auto' value={content} onChange={handleContentChange} />
             <FormLabel>문제 입출력</FormLabel>
-            <Textarea h={50} overflowY='auto' value={example} onChange={handleExampleChange} />
+            <Textarea h={60} overflowY='auto' value={example} onChange={handleExampleChange} />
           </FormControl>          
         </ModalBody>
 
