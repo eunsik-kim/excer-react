@@ -3,36 +3,21 @@ import Button from "components/common/Button";
 import Roundbox from "components/common/Roundbox";
 import NoteBox from "components/specific/NoteBox";
 import UpdateProblem from "services/UpdateProblem";
+import useInputBool from "hooks/useInputBool";
 import {
   Tabs, TabList, TabPanels, Tab, TabPanel, Spacer, Flex,
 } from '@chakra-ui/react'
 import CodeEditor from './CodeEditor';
 import useInput from "hooks/useInput";
-import { useRecoilValue } from "recoil";
-import LoginState from "atoms/LoginState";
 
 const InputBox = ({data, ...rest}) => {
   const [note, handleNote] = useInput(data.note);
-  const [IsReview, handleIsReview] = useInput(data.is_review);
-  const [IsSuccess, handleIsSuccess] = useInput(data.is_success);
+  const [IsReview, handleIsReview] = useInputBool(data.is_review);
+  const [IsSuccess, handleIsSuccess] = useInputBool(data.is_success);
 
-  const noteData = {
-    'note': note,
-    'isreview': IsReview, 
-    'issuccess': IsSuccess,
-
-  }
-  const noteHandler = {
-    'handlenote': handleNote,
-    'handleisreview': handleIsReview,
-    'handleissuccess': handleIsSuccess,
-  }
-
-  console.log(noteData.note)
   const [language, setLang] = useState(data.language);
   const [code, setCode] = useState(data.code);
   const handleEditorChange = (value) => setCode(value);
-  const LoginInfo = useRecoilValue(LoginState);
 
   return (
     <Roundbox {...rest}>
@@ -44,8 +29,8 @@ const InputBox = ({data, ...rest}) => {
             </TabList>
             <Spacer/>
             <Button color='teal'px='7px' onClick={() => {UpdateProblem(
-              data.id, {...data, ...noteData, 'code': code, 'language': language, 'author': LoginInfo.username}
-            )}}>
+              data.id, {...data, note, 'is_review': IsReview,
+                'is_success': IsSuccess, code, language, })}}>
               저장
             </Button>
         </Flex>
@@ -55,7 +40,9 @@ const InputBox = ({data, ...rest}) => {
               handleEditorChange = {handleEditorChange} {...rest}/>
           </TabPanel>
           <TabPanel>
-            <NoteBox noteData = {noteData} noteHandler = {noteHandler} {...rest}/>
+            <NoteBox note={note}  IsReview = {IsReview} IsSuccess = {IsSuccess} 
+              handleNote={handleNote} handleIsReview = {handleIsReview} 
+              handleIsSuccess = {handleIsSuccess} {...rest}/>
           </TabPanel>
         </TabPanels>
       </Tabs>

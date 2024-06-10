@@ -7,15 +7,13 @@ import InputErrorText from "../common/InputErrorText";
 import { useNavigate } from "react-router-dom";
 import { Box, Flex, Center, Divider } from "@chakra-ui/react";
 import { CheckUserName, CheckPassword, CheckDoublePassword } from '../../utils/validUserNamePw';
+import useInput from "hooks/useInput";
 
 const SignUp = () => {
 	const navigate = useNavigate(); 
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
-	const [checkPassword, setCheckPassword] = useState('');
-	const handleUsernameChange = (event) => setUsername(event.target.value);
-	const handlePasswordChange = (event) => setPassword(event.target.value);
-	const handleCheckPasswordChange = (event) => setCheckPassword(event.target.value);
+	const [username, handleUsernameChange] = useInput('');
+	const [password, handlePasswordChange] = useInput('');
+	const [checkPassword, handleCheckPasswordChange] = useInput('');
 
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');

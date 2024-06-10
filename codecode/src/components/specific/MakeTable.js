@@ -1,50 +1,39 @@
 import React from "react";
-import Link from "../common/Link";
-import { useLocation  } from "react-router-dom";
 import {
-  Table, Thead, Tbody, Tr, Th, Td, TableContainer, CloseButton
+  Table, Thead, Tbody, Tr, Th, Td, TableContainer, CloseButton,
+  Alert, AlertIcon, AlertDescription, Skeleton, Box
 } from '@chakra-ui/react';
-import DeleteProblem from "services/DeleteProblem";
+import TableRow from './TableRow';
+import TableSkeleton from './TableSkeleton';
 
-const MakeTable = ({data, titles}) => {
-  const location = useLocation();
+const MakeTable = ({data, titles, isLoading}) => {
 
   return (
     <TableContainer>
+      {isLoading ? ( 
+        <TableSkeleton titles = {titles}/>
+      ) : data ? (
       <Table variant='striped' size='md'>
         <Thead>
           <Tr>
             {titles.map((title, key)=>{
-              if (title === titles[1])
-                return <Th key={key}>{title}</Th>
               return <Th key={key}>{title}</Th>
             })}
           </Tr>
         </Thead>
         <Tbody>
-          {data.map((row, rowIndex)=>{
-            return (
-              <Tr key={rowIndex}>
-                {Object.values(row).map(
-                  (value, index)=>{
-                    if (index == 1)
-                      return (<Td key={index} width='1000px'>
-                        <Link to={`${location.pathname}/${row[0]}`}>{value}
-                        </Link></Td>);  
-                    else if (value)
-                      return (<Td key={index}>
-                        <Link to={`${location.pathname}/${row[0]}`}>{value}
-                      </Link></Td>);  
-                    return (<Td key={index}>없음</Td>);
-                  }
-                )}
-                <Td><CloseButton color='red' onClick={()=> DeleteProblem(row[0])}></CloseButton></Td>
-              </Tr>
-            );
-          })}
-          
+          <TableRow data={data} />
         </Tbody>
       </Table>
+      ):(
+        <Alert status="info">
+          <AlertIcon />
+          <AlertDescription>
+            알고리즘 문제를 추가해 주세요!
+          </AlertDescription>
+        </Alert>
+      )
+    }
     </TableContainer>
   );
 };

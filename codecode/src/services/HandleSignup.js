@@ -4,7 +4,6 @@ import { signupUrl } from "services/Urlconfig";
 const HandleSignup = async (username, password) => {
   try {
     const response = await axios.post(signupUrl, {username, password});
-    console.log(response);
     return true; 
   } catch (e) {
     console.log(e)

@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MakeTable from "components/specific/MakeTable";
 import Bodybox from "components/common/Bodybox";
-import Roundbox from "components/common/Roundbox"
+import Roundbox from "components/common/Roundbox";
 import GetProblem from "services/GetProblem";
-import Link from "components/common/Link";
-import { Button, Center } from "@chakra-ui/react";
-
+import InputModal from "../components/specific/InputModal";
+import { useNavigate } from "react-router-dom"
 const dummyData = {
   code: "200",
   message: "Success",
@@ -34,34 +33,44 @@ const dummyData = {
 };
 
 const Problem = () => {
-  const PROBLEM_TABLE_TITLE = ['문제 번호', '제목', '해결', '복습', '출처', '난이도', '날짜', '삭제'];
-  const SELECT_KEYS = ['id', 'title', 'is_success',  'is_review', 'source', 'level', 'updated_at']; // first key should be id 
-  const data = GetProblem("");
-  if (data){
-    console.log(data);
-  }
-  // get tableData selected by keys
-  const selectedData = dummyData.data.posts.map(post => (
+  const PROBLEM_TABLE_TITLE = ['문제 번호', '제목', '해결', '복습', '출처', '날짜', '삭제'];
+  const SELECT_KEYS = ['id', 'title', 'is_success',  'is_review', 'source', 'updatedAt']; // first key should be id 
+  const navigate = useNavigate();
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedData = await GetProblem("");
+        if (fetchedData) {
+          setData(fetchedData);
+        } else {
+          navigate('/');
+        }
+      } finally {
+        setIsLoading(false); 
+      }
+    };
+    fetchData();
+  }, []); 
+
+  const selectedData = !data ? null : data.data ? data.data.map(post => (
     SELECT_KEYS.map((key) => {
-        if (key === 'updated_at')
-          return post[key].split('T')[0]
-        else if (key === 'is_success' || key === 'is_review') {
-          if (post[key])
-            return 'O'
-          return 'X'
-        } 
+        if (key === 'updatedAt')
+          return post[key] ? post[key].split('T')[0] : "없음"
+        else if (key === 'is_success' || key === 'is_review') 
+          return post[key] ? 'O' : 'X'
         return post[key];
       }
     )
-  ));
+  )) : null;
 
   return (
     <Bodybox>
       <Roundbox>
-        <MakeTable data={selectedData} titles={PROBLEM_TABLE_TITLE} />
-        <Center>
-          <Button>+</Button>
-        </Center>
+        <MakeTable data={selectedData} titles={PROBLEM_TABLE_TITLE} isLoading={isLoading}/>
+        <InputModal />
       </Roundbox>
     </Bodybox>
   )

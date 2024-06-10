@@ -17,7 +17,7 @@ const LoginOnlyLink = ({ to, children }) => {
   };
 
   return (
-    <StyledButton onClick={handleClick}> {children}
+    <StyledButton onClick={() => {handleClick()}}> {children}
     </StyledButton>
   );
 };

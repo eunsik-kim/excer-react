@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import Problembox from '../components/specific/Problem';
 import InputBox from '../components/specific/InputBox';
-import { HStack, Text,} from '@chakra-ui/react';
-import Bodybox from "components/common/Bodybox";
+import { HStack, Text, Box, Skeleton } from '@chakra-ui/react';
 import GetProblem from "services/GetProblem";
 
 const dummyData = {
@@ -15,33 +15,33 @@ const dummyData = {
         id: 1,
         title: "Two Sum",
         content: `Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
-        You may assume that each input would have exactly one solution, and you may not use the same element twice.
-        You can return the answer in any order.`,
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+You can return the answer in any order.`,
         example: `Example 1:
 
-        Input: nums = [2,7,11,15], target = 9
-        Output: [0,1]
-        Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 
-        Example 2:
-        
-        Input: nums = [3,2,4], target = 6
-        Output: [1,2]
+Example 2:
 
-        Example 3:
-        
-        Input: nums = [3,3], target = 6
-        Output: [0,1]
-        
-        Example 2:
-        
-        Input: nums = [3,2,4], target = 6
-        Output: [1,2]
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
 
-        Example 3:
-        
-        Input: nums = [3,3], target = 6
-        Output: [0,1]
+Example 3:
+
+Input: nums = [3,3], target = 6
+Output: [0,1]
+
+Example 2:
+
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+
+Example 3:
+
+Input: nums = [3,3], target = 6
+Output: [0,1]
 
         `,
         link: "https://leetcode.com/problems/two-sum/",
@@ -80,20 +80,45 @@ const dummyData = {
   }
 };
 
-const ProblemSolve = ({newData}) => {
+const ProblemSolve = () => {
   const {id} = useParams();
-  if (!newData)
-    newData = GetProblem(id);
-  console.log(newData);
-  const data = dummyData.data.posts.find(post => post.id === parseInt(id, 10));
-  if (!data) {
-    return <Bodybox><Text fontSize='5xl' as='b'>Problem<Text color='Red'>Not</Text>Found</Text></Bodybox>;
-  } 
-  
+  const navigate = useNavigate();
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedData = await GetProblem(id);
+        if (fetchedData) {
+          setData(fetchedData);
+        } else {
+          navigate('/');
+        }
+      } finally {
+        setIsLoading(false); 
+      }
+    };
+    fetchData();
+  }, []); 
+
   return (
     <HStack mx={10}>
-      <Problembox flexBasis="40%" h='80vh' whiteSpace="pre-line" data={data} />
-      <InputBox flexBasis="60%" h='80vh' whiteSpace="pre-line" data={data}/> 
+      {isLoading || !data || !data.data ? (
+        <>
+          <Box flexBasis="40%" h='80vh'>
+            <Skeleton height="100%" />
+          </Box>
+          <Box flexBasis="60%" h='80vh'>
+            <Skeleton height="100%" />
+          </Box>
+        </>
+      ) : ( 
+        <>
+          <Problembox flexBasis="40%" h='80vh' whiteSpace="pre-line" data={data.data} />
+          <InputBox flexBasis="60%" h='80vh' whiteSpace="pre-line" data={data.data} />
+        </>
+      )}
     </HStack>
   );
 }
