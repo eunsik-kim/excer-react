@@ -5,39 +5,18 @@ import Roundbox from "components/common/Roundbox";
 import GetProblem from "services/GetProblem";
 import InputModal from "../components/specific/InputModal";
 import { useNavigate } from "react-router-dom"
-const dummyData = {
-  code: "200",
-  message: "Success",
-  data: {
-    posts: [
-      {
-        id: 1,
-        title: "Two Sum",
-        is_success: true,
-        is_review: false,
-        source: "leet",
-        link: "https://leetcode.com/problems/two-sum/",
-        updated_at: "2024-06-07T12:30:00Z"
-      },
-      {
-        id: 2,
-        title: "정ㅋ벅ㅋ",
-        is_success: false,
-        is_review: false,
-        source: "백준",
-        link: "https://www.acmicpc.net/problem/1237",
-        updated_at: "2024-06-08T12:30:00Z"
-      },
-    ]
-  }
-};
+import { useRecoilState, useRecoilValue } from "recoil";
+import RefreshState from "atoms/RefreshState";
+
+const PROBLEM_TABLE_TITLE = ['문제 번호', '제목', '해결', '복습', '출처', '날짜', '삭제'];
+// first key should be id 
+const SELECT_KEYS = ['id', 'title', 'is_success',  'is_review', 'source', 'updatedAt']; 
 
 const Problem = () => {
-  const PROBLEM_TABLE_TITLE = ['문제 번호', '제목', '해결', '복습', '출처', '날짜', '삭제'];
-  const SELECT_KEYS = ['id', 'title', 'is_success',  'is_review', 'source', 'updatedAt']; // first key should be id 
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const refresh = useRecoilValue(RefreshState);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,7 +32,7 @@ const Problem = () => {
       }
     };
     fetchData();
-  }, []); 
+  }, [refresh]); 
 
   const selectedData = !data ? null : data.data ? data.data.map(post => (
     SELECT_KEYS.map((key) => {

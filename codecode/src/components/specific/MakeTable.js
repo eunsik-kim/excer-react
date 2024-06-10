@@ -1,7 +1,7 @@
 import React from "react";
 import {
-  Table, Thead, Tbody, Tr, Th, Td, TableContainer, CloseButton,
-  Alert, AlertIcon, AlertDescription, Skeleton, Box
+  Table, Thead, Tbody, Tr, Th, Td, TableContainer,
+  Alert, AlertIcon, AlertDescription,
 } from '@chakra-ui/react';
 import TableRow from './TableRow';
 import TableSkeleton from './TableSkeleton';
@@ -25,7 +25,7 @@ const MakeTable = ({data, titles, isLoading}) => {
           <TableRow data={data} />
         </Tbody>
       </Table>
-      ):(
+      ) : (
         <Alert status="info">
           <AlertIcon />
           <AlertDescription>

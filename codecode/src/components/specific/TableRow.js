@@ -2,10 +2,12 @@ import Link from "../common/Link";
 import { useLocation  } from "react-router-dom";
 import { Tr, Td, CloseButton } from '@chakra-ui/react';
 import DeleteProblem from "services/DeleteProblem";
+import RefreshState from "atoms/RefreshState";
+import { useSetRecoilState } from 'recoil';
 
 const TableRow = ({data}) => {
   const location = useLocation();
-
+  const SetRefresh = useSetRecoilState(RefreshState);
   return (
     <>
       {data.map((row, rowIndex)=>{
@@ -24,7 +26,10 @@ const TableRow = ({data}) => {
                 return (<Td key={index}>없음</Td>);
               }
             )}
-            <Td><CloseButton color='red' onClick={()=> DeleteProblem(row[0])}></CloseButton></Td>
+            <Td><CloseButton color='red' onClick={async ()=> {
+              await DeleteProblem(row[0]);
+              SetRefresh(prevRefresh => !prevRefresh);
+            }}></CloseButton></Td>
           </Tr>
         );
       })}

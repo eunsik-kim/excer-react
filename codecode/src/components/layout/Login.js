@@ -9,16 +9,16 @@ import { useSetRecoilState } from "recoil";
 import LoginState from "atoms/LoginState";
 import { Box, Flex, Center, Divider, InputRightElement, InputGroup } from "@chakra-ui/react";
 
-
 const Login = () => {
 	const navigate = useNavigate(); 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [show, setShow] = useState(false)
 	const handleClick = () => setShow(!show)
+	const setLoginInfo = useSetRecoilState(LoginState);
 	const handleUsernameChange = (event) => setUsername(event.target.value);
 	const handlePasswordChange = (event) => setPassword(event.target.value);
-	const setLoginInfo = useSetRecoilState(LoginState);
+	
 	return (
 		<Center>
 			<Roundbox>

@@ -6,7 +6,7 @@ const HandleLogin = async (username, password) => {
   try {
     const response = await axios.post(loginUrl, {username, password});
     const newAccessToken = response.headers['authorization'];
-    Cookies.set('accessToken', newAccessToken, { httpOnly: false, secure: true, sameSite: 'Lax'});
+    Cookies.set('accessToken', newAccessToken, { httpOnly: true, secure: true, sameSite: 'Lax'});
   
     // refresh는 아직 미구현
     // const newRefreshToken = response.headers['refreshToken'];

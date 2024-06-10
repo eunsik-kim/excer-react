@@ -2,9 +2,9 @@ import React from "react";
 
 const Solve = () => {
   return (
-    <div>
+    <<div>
       Solve
-    </div>
+    </div>>
   )
 }
 export default Solve;

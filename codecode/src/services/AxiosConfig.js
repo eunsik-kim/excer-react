@@ -22,7 +22,7 @@ instance.interceptors.response.use(
     // header에 access token 포함
     const newAccessToken = response.headers['accessToken'];
     if (newAccessToken) 
-      Cookies.set('accessToken', newAccessToken, { httpOnly: false, secure: true, sameSite: 'Lax'});
+      Cookies.set('accessToken', newAccessToken, { httpOnly: true, secure: true, sameSite: 'Lax'});
 
     return response;
   },

@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import useInput from '../../hooks/useInput'
 import Button from 'components/common/Button';
-import { useNavigate } from 'react-router-dom';
 import CreateProblem from 'services/CreateProblem';
 import useInputBool from '../../hooks/useInputBool'
 import {
-  defaultChecked, Flex,
-  Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, Checkbox,
+  Flex, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, Checkbox,
   ModalBody, ModalCloseButton, Input, FormControl, FormLabel, Center, Textarea,
 } from '@chakra-ui/react';
-
+import { useSetRecoilState } from 'recoil';
+import RefreshState from 'atoms/RefreshState';
 
 function InputModal() {
-  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [title, handleTitleChange] = useInput('');
   const [source, handleSourceChange] = useInput('');
@@ -21,6 +19,8 @@ function InputModal() {
   const [example, handleExampleChange] = useInput('');
   const [is_success, handleIsSuccessChange] = useInputBool(false);
   const [is_review, handleIsReviewChange] = useInputBool(false);
+  const SetRefresh = useSetRecoilState(RefreshState);
+  
   const onClose = () => setIsOpen(!isOpen);
   return (
     <>
@@ -50,15 +50,17 @@ function InputModal() {
             <FormLabel>문제 내용</FormLabel>
             <Textarea mb={1} h={40} overflowY='auto' value={content} onChange={handleContentChange} />
             <FormLabel>문제 입출력</FormLabel>
-            <Textarea h={30} overflowY='auto' value={example} onChange={handleExampleChange} />
+            <Textarea h={50} overflowY='auto' value={example} onChange={handleExampleChange} />
           </FormControl>          
         </ModalBody>
 
         <ModalFooter>
           <Button color="teal" pr={3} pl={3} 
-            onClick={() => {
-              CreateProblem({title, source, link, content, example, 'is_success':!!is_success, 'is_review': !!is_review});
-              navigate('/problem');
+            onClick={async () => {
+              await CreateProblem({title, source, link, content, example, 
+                  'is_success':!!is_success, 'is_review': !!is_review});
+              SetRefresh(prevRefresh => !prevRefresh);
+              setIsOpen(false);
             }}>
             추가
           </Button>
